@@ -65,7 +65,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
-           <img width="40px"  src='https://w7.pngwing.com/pngs/557/28/png-transparent-education-learning-management-system-student-school-student.png'/>
            <h2 style={{color:'white'}} className='text-2xl font-bold'>ERP System</h2>
           {/* <img src={Logo} alt="Logo" /> */}
         </NavLink>
@@ -73,7 +72,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <button
           ref={trigger}
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-controls="sidebar"
+          // aria-controls="sidebar"
           aria-expanded={sidebarOpen}
           className="block lg:hidden"
         >

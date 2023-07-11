@@ -1,8 +1,39 @@
 import { Link } from 'react-router-dom';
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
+import {useState} from "react";
+import React from "react";
+import axios from 'axios';
+interface FormSchema{
+  user:{
+    email:string,
+    password:string
+  }
 
-const SignIn = () => {
+}
+
+const SignIn:React.FC=()=>{
+  const [data,setdata]=useState<FormSchema>({
+    user:{
+
+      email:'',
+      password:''
+    }
+  })
+  const handlechange=(e:React.ChangeEvent<HTMLInputElement>):void=>{
+   setdata({
+    user:{
+      ...data.user,
+      [e.target.name]:e.target.value,
+    }
+   })
+  }
+const handlesubmit=(e:React.FormEvent<HTMLFormElement>):void=>{
+   e.preventDefault();
+   console.log(data.user);
+  
+}
+  
+  console.log(data);
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -153,8 +184,8 @@ const SignIn = () => {
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign In to ERP System
               </h2>
-
-              <form>
+           
+              <form onSubmit={handlesubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
@@ -162,6 +193,10 @@ const SignIn = () => {
                   <div className="relative">
                     <input
                       type="email"
+                      name='email'
+                      onChange={handlechange}
+
+                      value={data.user.email}
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -192,6 +227,9 @@ const SignIn = () => {
                   </label>
                   <div className="relative">
                     <input
+                    name='password'
+                     value={data.user.password}
+                     onChange={handlechange}
                       type="password"
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"

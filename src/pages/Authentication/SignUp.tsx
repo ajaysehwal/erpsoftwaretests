@@ -1,8 +1,51 @@
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
+import axios from "axios";
+import React from 'react';
+import {useState} from "react";
+const SignUp:React.FC =()=> {
+  interface FormSchema{
+    user:{
+      name:string,
+      email:string,
+      password:string
+      
+    }
+  }
+  const [data,setdata]=useState<FormSchema>({
+    user:{
+      name:'',
+      email:'',
+      password:'',
+    }
+  })
+  const handlechange=(e:React.ChangeEvent<HTMLInputElement>):void=>{
+    setdata({
+     user:{
+       ...data.user,
+       [e.target.name]:e.target.value,
+     }
+    })
+   }
+   const handlesubmit=(e:React.FormEvent<HTMLFormElement>):void=>{
+    e.preventDefault();
+    console.log(data.user);
+    const formData: FormData =data.user;
 
-const SignUp = () => {
+    postData(formData);
+   
+ }
+ const postData = async (formData:FormData) => {
+  try {
+    const response = await axios.post('http://localhost:8000/signup', formData);
+    console.log('Response:', response.data);
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+   console.log(data);
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -153,13 +196,15 @@ const SignUp = () => {
                 Sign Up to ERP System
               </h2>
 
-              <form>
+              <form onSubmit={handlesubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Name
                   </label>
                   <div className="relative">
                     <input
+                    name='name'
+                    onChange={handlechange}
                       type="text"
                       placeholder="Enter your full name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -195,6 +240,8 @@ const SignUp = () => {
                   </label>
                   <div className="relative">
                     <input
+                    name='email'
+                    onChange={handlechange}
                       type="email"
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -226,6 +273,8 @@ const SignUp = () => {
                   </label>
                   <div className="relative">
                     <input
+                      name='password'
+                       onChange={handlechange}
                       type="password"
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
