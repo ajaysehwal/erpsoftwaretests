@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
+import emailjs from '@emailjs/browser';
+import { useRef } from 'react';
+
+import First from './signupsteps/first';
 import axios from "axios";
 import React from 'react';
 import {useState} from "react";
@@ -33,8 +35,8 @@ const SignUp:React.FC =()=> {
     console.log(data.user);
     const formData: FormData =data.user;
 
-    postData(formData);
-   
+    // postData(formData);
+    sendemail('service_vcvjw7g','template_nbn4a87','isK8ZDaXBsXrhGGh7')
  }
  const postData = async (formData:FormData) => {
   try {
@@ -45,6 +47,21 @@ const SignUp:React.FC =()=> {
     console.error('Error:', error);
   }
 };
+const form = useRef();
+
+  const sendemail=(service_id:any,template_id:any,public_key:any):void=>{
+ 
+    emailjs.sendForm(service_id, template_id, form.current, public_key)
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+  }
+  
+
+
+ 
    console.log(data);
   return (
     <>
@@ -188,15 +205,16 @@ const SignUp:React.FC =()=> {
               </span>
             </div>
           </div>
-
-          <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
+             
+          <div  className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign Up to ERP System
               </h2>
-
-              <form onSubmit={handlesubmit}>
+              <First form={form} sendemail={sendemail}/>
+              <form  style={{display:"none"}} onSubmit={handlesubmit}>
+               
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Name
@@ -234,7 +252,7 @@ const SignUp:React.FC =()=> {
                   </div>
                 </div>
 
-                <div className="mb-4">
+                <div  className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
                   </label>
@@ -267,7 +285,7 @@ const SignUp:React.FC =()=> {
                   </div>
                 </div>
 
-                <div className="mb-4">
+                <div  className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Password
                   </label>
